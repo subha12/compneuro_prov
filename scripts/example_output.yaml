@@ -1,0 +1,27 @@
+Token: need_a_token_if_not_passed_as_a_cmdline_param
+
+Directories:
+- /expanse/jobs/13331609/output/
+
+ExcludeList: []
+
+Title: NSG Job 13331609 - NEURON_EXPANSE
+
+Description: >
+  Provenance record for NSG job execution.
+  Tool: NEURON_EXPANSE, Resource: expanse,
+  User: JohnDoe, Created: 2022-06-09 10:36:40.0
+
+Keywords: NSG, HPC, NEURON_EXPANSE
+
+DOI:
+
+URL: http://nsgportal.org
+
+Funding:
+ - NSF: true
+ - NIH:
+ - NASA:
+ - NOAA:
+
+Acknowledgment: Automatically generated provenance metadata from NSG workflow.
