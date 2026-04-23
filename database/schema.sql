@@ -1,1 +1,1 @@
-
+CREATE TABLE osc_job_info ( job_id BIGINT NOT NULL, user_id BIGINT NOT NULL, osc_id VARCHAR(255) DEFAULT NULL, PRIMARY KEY (job_id), INDEX idx_user_id (user_id), INDEX idx_osc_id (osc_id), CONSTRAINT fk_job_id FOREIGN KEY (job_id) REFERENCES jobs(job_id), CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(user_id) )
