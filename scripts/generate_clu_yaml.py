@@ -1,53 +1,60 @@
 import yaml
 import sys
 import os
-import hashlib
 from metadata_extraction.parse_jobinfo import parse_jobinfo
 
 
-def compute_sha256(file_path):
-    sha256 = hashlib.sha256()
-    with open(file_path, "rb") as f:
-        for chunk in iter(lambda: f.read(4096), b""):
-            sha256.update(chunk)
-    return sha256.hexdigest()
+def read_full_jobinfo(jobinfo_path):
+    with open(jobinfo_path, "r") as f:
+        return f.read().strip()
 
 
-def generate_clu_yaml(jobinfo_path, output_yaml, output_dir):
+def generate_clu_yaml(jobinfo_path, output_yaml):
     data = parse_jobinfo(jobinfo_path)
+
+    # Full raw JOBINFO text
+    description_text = read_full_jobinfo(jobinfo_path)
+
+    # Funding mapping 
+    funding_map = {
+        "NSF": False,
+        "NIH": False,
+        "NASA": False,
+        "NOAA": False
+    }
+
+    if "NSF" in description_text:
+        funding_map["NSF"] = True
+    if "NIH" in description_text:
+        funding_map["NIH"] = True
+    if "NASA" in description_text:
+        funding_map["NASA"] = True
+    if "NOAA" in description_text:
+        funding_map["NOAA"] = True
 
     yaml_data = {
         "Token": "need_a_token_if_not_passed_as_a_cmdline_param",
 
-        # REQUIRED
-        "Directories": [output_dir],
+        # Always current working directory
+        "Directories": [os.getcwd()],
 
         "ExcludeList": [],
 
-        "Title": f"NSG Job {data['job_id']} - {data['tool']}",
+        "Title": data.get("tool", "NSG Job"),
 
-        "Description": (
-            f"Provenance record for NSG job execution.\n"
-            f"Tool: {data['tool']}, Resource: {data['resource']}, "
-            f"User: {data['username']}, Created: {data['created_on']}"
-        ),
+        # Raw JOBINFO as description
+        "Description": description_text,
 
-        "Keywords": f"NSG, HPC, {data['tool']}",
+        "Keywords": data.get("keywords", "NSG, HPC"),
 
         "DOI": "",
 
         "URL": "http://nsgportal.org",
 
-        "Funding": [
-            {"NSF": True},
-            {"NIH": False},
-            {"NASA": False},
-            {"NOAA": False}
-        ],
+        # Convert to required YAML format
+        "Funding": [{k: v} for k, v in funding_map.items()],
 
-        "Acknowledgment": (
-            "Automatically generated provenance metadata from NSG workflow."
-        )
+        "Acknowledgment": "Automatically generated provenance metadata from NSG workflow."
     }
 
     with open(output_yaml, "w") as f:
@@ -59,7 +66,5 @@ def generate_clu_yaml(jobinfo_path, output_yaml, output_dir):
 if __name__ == "__main__":
     jobinfo = sys.argv[1]
     output_yaml = sys.argv[2]
-    output_dir = sys.argv[3]
 
-    generate_clu_yaml(jobinfo, output_yaml, output_dir)
-  
+    generate_clu_yaml(jobinfo, output_yaml)
