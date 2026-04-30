@@ -1,18 +1,23 @@
 Token: need_a_token_if_not_passed_as_a_cmdline_param
 
 Directories:
-- /expanse/jobs/13331609/output/
+/home/nsguser/nbgwprod/scripts/workspace/NGBW-JOB-NIC-CONVERTER-BM1XQEO6P7TXWCY9
 
 ExcludeList: []
 
-Title: NSG Job 13331609 - NEURON_EXPANSE
+Title: Convertor 
 
-Description: >
-  Provenance record for NSG job execution.
-  Tool: NEURON_EXPANSE, Resource: expanse,
-  User: JohnDoe, Created: 2022-06-09 10:36:40.0
+Description:
+FragmentsPerSegment: 30
+EpochDuration: 30
+Number of server nodes: 1
+Number of processors per server node: 1
 
-Keywords: NSG, HPC, NEURON_EXPANSE
+Keywords:
+Epilepsy, NIC
+
+Directories:
+- /expanse/jobs/13331609/output/
 
 DOI:
 
