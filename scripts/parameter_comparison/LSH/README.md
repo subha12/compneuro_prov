@@ -41,3 +41,13 @@ Differences for popParams
 
 LSH concept link:
 [https://github.com/mattilyra/LSH/tree/master](https://github.com/mattilyra/LSH/tree/master)
+
+
+ISSUES: 
+
+This project provided simialrity score within various versions of the same model. The code was tested with both M1 and A1 models. Some issues observed
+1. Error similar to : Exception: Error occured in h.load_file() when loading ../cells/PTcell.hoc. See above for details.
+   Fix is to run nrnivmodl on the mod files
+2. Error: wrap.c:224:40: error: incompatible function pointer types passing 'void (void *)' to parameter of type 'double (*)(void *)' [-Wincompatible-function-pointer-types]
+   Fix: Presence of wrap.mod file causes issues with the lateste version of NEURON and NetPyNE. Removal of the line is the only solution as it doesnt affect the comparison of parameters. 
+   
