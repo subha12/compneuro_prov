@@ -79,27 +79,24 @@ def insert_into_db(job_id, user_id, osc_id):
 
 
 def main():
-    if len(sys.argv) < 5:
-        print("Usage: python submit_to_osc.py <JOBINFO> <output.yaml> <job_id> <user_id>")
-        sys.exit(1)
+    if len(sys.argv) < 4:
+        print("Usage: python submit_to_osc.py <output.yaml> <job_id> <user_id>")
+    sys.exit(1)
 
-    jobinfo = sys.argv[1]
-    output_yaml = sys.argv[2]
-    job_id = int(sys.argv[3])
-    user_id = int(sys.argv[4])
+    output_yaml = sys.argv[1]
+    job_id = int(sys.argv[2])
+    user_id = int(sys.argv[3])
 
-    # Step 1: Generate YAML
-    os.system(f"python scripts/generate_yaml.py {jobinfo} {output_yaml}")
-
-    # Step 2: Get token (from env or prompt)
+    
+    # Get token (from env or prompt)
     token = os.environ.get("OSC_TOKEN")
     if not token:
         token = input("Enter OSC token: ").strip()
 
-    # Step 3: Submit to CLU
+    # Submit to CLU
     osc_id = run_clu_submit(output_yaml, token)
 
-    # Step 4: Insert into DB
+    #  Insert into DB
     insert_into_db(job_id, user_id, osc_id)
 
 
