@@ -9,3 +9,5 @@ Clone the official repository
 Run it alongside the generated YAML files from this project
 
 This repository does not duplicate CLU code and instead references the official source.
+
+This project uses Jones Model from ModelDB - https://modeldb.science/136803
